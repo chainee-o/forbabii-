@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loadiing</title>
+  <style>
+    
+    body {
+      background-color: #000;
+      font-family: Arial, sans-serif; 
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .loading-container {
+      width: 230px;
+      height: 25px;
+      border: 2px solid #5d9eff;
+      border-radius: 20px;
+      overflow: hidden;
+      position: relative;
+      background-color: #2a2a2a;
+    }
+
+    .water {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 100%;
+      background-color: #5d9eff;
+      border-radius: 20px 0 0 20px;
+      transition: width 0.5s ease-out;
+    }
+
+    h1 {
+      font-size: 24px;
+      color: #5d9eff;
+      margin-bottom: 10px;
+      font-weight: normal; 
+      text-shadow: 1px 1px #000;
+    }
+
+    p {
+      font-size: 18px;
+      color: #b3b3b3;
+      font-weight: normal; 
+    }
+
+    .heart {
+      position: absolute;
+      color: #5d9eff;
+      font-size: 20px;
+      opacity: 0.8;
+      animation: bounce 0.6s forwards ease-out;
+    }
+
+    @keyframes bounce {
+      0% { transform: translateY(0); opacity: 1; }
+      50% { transform: translateY(-30px); opacity: 1; }
+      100% { transform: translateY(0); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div id="loadingScreen">
+    <h1>Loading... 🌸</h1>
+    <div class="loading-container">
+      <div class="water" id="water"></div>
+    </div>
+    <p id="loadingText">0%</p>
+  </div>
+
+  <script>
+    let loading = 0;
+    const loadingInterval = setInterval(() => {
+      if (loading <= 100) {
+        document.getElementById('loadingText').innerText = loading + '%';
+        document.getElementById('water').style.width = loading + '%';
+        
+        if (loading === 50 || loading === 90 || Math.random() < 0.15) {
+          createHeartEffect();
+        }
+
+        loading++;
+      } else {
+        clearInterval(loadingInterval);
+        setTimeout(() => {
+          window.location.href = 'letter.html';
+        }, 1000);
+      }
+    }, 30);
+
+    function createHeartEffect() {
+      const heart = document.createElement('div');
+      heart.className = 'heart';
+      heart.innerText = '💙';
+
+      const randomPositionX = Math.random() * 100 + 'vw'; 
+      const randomPositionY = Math.random() * 100 + 'vh';
+      heart.style.left = randomPositionX;
+      heart.style.top = randomPositionY;
+
+      document.body.appendChild(heart);
+
+      setTimeout(() => {
+        heart.remove();
+      }, 600);
+    }
+  </script>
+</body>
+</html>
